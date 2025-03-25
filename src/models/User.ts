@@ -10,8 +10,8 @@ export interface User extends mongoose.Document {
     email: string;
     password: string;
     isVerified: boolean;
-    opt: string;
-    optExpiry: Date;
+    otp: string;
+    otpExpiry: Date;
     acceptMessage: boolean;
     messages: Message[];
 }
@@ -49,11 +49,11 @@ const UserSchema = new mongoose.Schema<User>({
         type: Boolean,
         default: false,
     },
-    opt: {
+    otp: {
         type: String,
         required: true,
     },
-    optExpiry: {
+    otpExpiry: {
         type: Date,
         required: true,
     },
