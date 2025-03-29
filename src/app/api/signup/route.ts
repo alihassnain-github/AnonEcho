@@ -3,15 +3,12 @@ import connectDB from "@/lib/dbConnect";
 import { SignUpSchema } from "@/lib/schemas/authSchema";
 import { UserModel } from "@/models/User";
 import sendVerificationEmail from "@/lib/sendVerificationEmail";
-
-function generateOTP() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
+import generateOTP from "@/utils/generateOtp";
 
 export async function POST(request: Request) {
+    await connectDB();
 
     try {
-        await connectDB();
 
         const body = await request.json();
         const parsed = SignUpSchema.safeParse(body);
@@ -20,7 +17,7 @@ export async function POST(request: Request) {
             return Response.json({ message: "Invalid request", success: false }, { status: 400 });
         }
 
-        const { username, email, password } = body;
+        const { username, email, password } = parsed.data;
 
         // check if user already exist
         const exisitingUser = await UserModel.findOne({ email });
@@ -49,7 +46,7 @@ export async function POST(request: Request) {
             return Response.json({ message: emailResponse.message, success: false }, { status: 500 });
         }
 
-        const newUser = await UserModel.create({
+        await UserModel.create({
             username,
             email,
             password: hash,

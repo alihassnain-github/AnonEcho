@@ -45,3 +45,11 @@ export const VerifySchema = z.object({
         .length(6, "OTP must be exactly 6 digits")
         .regex(/^\d+$/, "OTP must contain only numbers"),
 });
+
+export const SendEmailSchema = z.object({
+    email: z
+        .string()
+        .trim()
+        .nonempty("Email is required")
+        .email("Invalid email format"),
+});
