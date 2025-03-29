@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials"
 import { SignInSchema } from "./lib/schemas/authSchema"
 import bcrypt from "bcryptjs"
 import connectDB from "./lib/dbConnect"
+import { UserModel } from "./models/User"
 
 export const { handlers, auth } = NextAuth({
     providers: [
@@ -19,14 +20,18 @@ export const { handlers, auth } = NextAuth({
 
                     const { email, password } = await SignInSchema.parseAsync(credentials)
 
-                    // logic to salt and hash password
-                    const pwHash = bcrypt.compare();
-
-                    // logic to verify if the user exists
-                    user = await getUserFromDb(email, pwHash)
-
+                    user = await UserModel.findOne({ email });
                     if (!user) {
                         throw new Error("Invalid credentials.")
+                    }
+
+                    if (!user.isVerified) {
+                        throw new Error("Account not verified.")
+                    }
+
+                    const isVaildPassword = await bcrypt.compare(password, user.password);
+                    if (!isVaildPassword) {
+                        throw new Error("Wrong Password")
                     }
 
                     // return JSON object with the user data
@@ -39,4 +44,7 @@ export const { handlers, auth } = NextAuth({
             },
         }),
     ],
+    pages: {
+        signIn: "auth/signin",
+    },
 })
