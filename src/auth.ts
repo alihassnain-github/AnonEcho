@@ -42,9 +42,30 @@ export const { handlers, auth } = NextAuth({
                     }
                 }
             },
-        }),
+        })
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token._id = user._id;
+                token.username = user.username;
+                token.isVerified = user.isVerified;
+                token.acceptMessage = user.acceptMessage;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            session.user._id = token._id as string;
+            session.user.username = token.username as string;
+            session.user.isVerified = token.isVerified as boolean;
+            session.user.acceptMessage = token.acceptMessage as string;
+            return session;
+        }
+    },
     pages: {
         signIn: "auth/signin",
     },
+    session: {
+        strategy: "jwt",
+    }
 })

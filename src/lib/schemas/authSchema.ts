@@ -6,7 +6,8 @@ export const SignUpSchema = z.object({
         .trim()
         .nonempty("Username is required")
         .min(2, "Username must be at least 2 characters long")
-        .max(20, "Username cannot exceed 20 characters"),
+        .max(20, "Username cannot exceed 20 characters")
+        .regex(/^[a-z0-9](?:[a-z0-9_.-]*[a-z0-9])?$/i, "Invalid username"),
 
     email: z
         .string()
@@ -38,12 +39,9 @@ export const SignInSchema = z.object({
 });
 
 export const VerifySchema = z.object({
-    otp: z
-        .string()
-        .trim()
-        .nonempty("OTP is required")
-        .length(6, "OTP must be exactly 6 digits")
-        .regex(/^\d+$/, "OTP must contain only numbers"),
+    pin: z.string()
+        .length(6, { message: "Your one-time password must be exactly 6 digits." })
+        .regex(/^\d{6}$/, { message: "OTP must contain only numbers (0-9)." }),
 });
 
 export const SendEmailSchema = z.object({

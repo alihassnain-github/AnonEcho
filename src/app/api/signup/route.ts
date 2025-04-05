@@ -57,6 +57,8 @@ export async function POST(request: Request) {
 
         return Response.json({ message: "A verification email has been sent to your email.", success: true }, { status: 201 });
     } catch (error) {
+        console.error("Error creating user:", error);
+
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 

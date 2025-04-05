@@ -43,7 +43,6 @@ const UserSchema = new mongoose.Schema<User>({
         type: String,
         required: true,
         minlength: 8,
-        maxlength: 12,
     },
     isVerified: {
         type: Boolean,
@@ -65,6 +64,6 @@ const UserSchema = new mongoose.Schema<User>({
 });
 
 
-export const UserModel = mongoose.models.User || mongoose.model("User", UserSchema);
+export const UserModel = mongoose.models?.User || mongoose.model("User", UserSchema);
 
-export const MessageModel = mongoose.models.Message || mongoose.model("Message", MessageSchema);
+export const MessageModel = mongoose.models?.Message || mongoose.model("Message", MessageSchema);
