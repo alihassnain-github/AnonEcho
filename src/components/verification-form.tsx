@@ -19,17 +19,67 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { VerifySchema } from "@/lib/schemas/authSchema"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
+import axios from "axios"
+import { toast } from "sonner"
+import { useParams, useRouter } from "next/navigation"
 
 export default function InputOTPForm() {
+
+    const params = useParams<{ username: string; }>();
+
+    const router = useRouter();
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const [sending, setSending] = useState<boolean>(false);
+
     const form = useForm<z.infer<typeof VerifySchema>>({
         resolver: zodResolver(VerifySchema),
         defaultValues: {
-            pin: "",
+            otp: "",
         },
     })
 
-    function onSubmit(data: z.infer<typeof VerifySchema>) {
-        console.log(data)
+    async function onSubmit(data: z.infer<typeof VerifySchema>) {
+        const { otp } = data;
+        try {
+            setLoading(true);
+            const response = await axios.post(`/api/verify-email?username=${params.username}`, {
+                otp
+            })
+
+            router.replace(`/signin`);
+
+            toast.success(response.data.message);
+
+        } catch (error) {
+            console.error("email verification Error: ", error);
+            if (axios.isAxiosError(error) && error.response?.data) {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function sendVerificationEmail() {
+        try {
+            setSending(true);
+            const response = await axios.post('/api/send-verification-email',
+                { username: params.username }
+            );
+
+            toast.success(response.data.message);
+
+        } catch (error) {
+            console.error("send verification email verification Error: ", error);
+            if (axios.isAxiosError(error) && error.response?.data) {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            setSending(false);
+        }
     }
 
     return (
@@ -44,7 +94,7 @@ export default function InputOTPForm() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField
                         control={form.control}
-                        name="pin"
+                        name="otp"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>One-Time Password</FormLabel>
@@ -69,11 +119,25 @@ export default function InputOTPForm() {
                     />
 
                     <div className="flex flex-col gap-3">
-                        <Button type="submit" className="w-full">
-                            Verify
+                        <Button type="submit" disabled={loading || sending} className="w-full">
+                            {
+                                loading ?
+                                    <>
+                                        <Loader2 className="animate-spin" />
+                                        Please wait
+                                    </> :
+                                    "Verify"
+                            }
                         </Button>
-                        <Button type="button" variant="outline" className="w-full">
-                            Resend Code
+                        <Button type="button" disabled={loading || sending} onClick={sendVerificationEmail} variant="outline" className="w-full">
+                            {
+                                sending ?
+                                    <>
+                                        <Loader2 className="animate-spin" />
+                                        Please wait
+                                    </> :
+                                    "Resend Code"
+                            }
                         </Button>
                     </div>
                 </form>

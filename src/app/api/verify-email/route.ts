@@ -5,21 +5,20 @@ import { UserModel } from "@/models/User";
 export async function POST(request: Request) {
     await connectDB();
     try {
-
         const { searchParams } = new URL(request.url);
 
-        const email = searchParams.get("email");
+        const username = searchParams.get("username");
 
         const body = await request.json();
         const parsed = VerifySchema.safeParse(body);
-        if (!parsed.success || !email) {
+        if (!parsed.success || !username) {
             return Response.json({ message: "Invalid request", success: false }, { status: 400 });
         }
 
         const { otp } = parsed.data;
 
         // find user by email 
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ username });
         if (!user) {
             return Response.json({ message: "Account not found", success: false }, { status: 404 });
         }

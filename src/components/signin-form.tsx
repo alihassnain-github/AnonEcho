@@ -1,5 +1,6 @@
 "use client"
 
+import { signIn } from "next-auth/react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -9,8 +10,17 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { SignInSchema } from "@/lib/schemas/authSchema"
 import Link from "next/link"
+import { useState } from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 
 export default function SignInForm() {
+
+    const router = useRouter();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
     const form = useForm<z.infer<typeof SignInSchema>>({
         resolver: zodResolver(SignInSchema),
         defaultValues: {
@@ -19,8 +29,45 @@ export default function SignInForm() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof SignInSchema>) {
-        console.log(data)
+    async function onSubmit(data: z.infer<typeof SignInSchema>) {
+        const { email, password } = data;
+        try {
+            setLoading(true);
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (res?.error) {
+                let parsedError;
+
+                try {
+                    parsedError = JSON.parse(res.error);
+                } catch {
+                    parsedError = null;
+                }
+
+                if (parsedError?.code === "EMAIL_NOT_VERIFIED") {
+                    toast(parsedError.message, {
+                        action: {
+                            label: 'Verify now',
+                            onClick: () => router.replace(`/verify/${parsedError.username}`)
+                        },
+                    })
+                } else {
+                    console.error(res.error);
+                    toast.error(res.error);
+                }
+            } else {
+                router.replace("/dashboard");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Something went wrong");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -86,8 +133,15 @@ export default function SignInForm() {
                         </Link>
                     </div>
 
-                    <Button type="submit" className="w-full">
-                        Sign in
+                    <Button type="submit" disabled={loading} className="w-full">
+                        {
+                            loading ?
+                                <>
+                                    <Loader2 className="animate-spin" />
+                                    Please wait
+                                </> :
+                                "Sign in"
+                        }
                     </Button>
 
                     <div className="text-center text-sm mt-4">

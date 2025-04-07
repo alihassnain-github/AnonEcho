@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import { NextAuthOptions } from "next-auth"
 import { ZodError } from "zod"
 import Credentials from "next-auth/providers/credentials"
 import { SignInSchema } from "./lib/schemas/authSchema"
@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs"
 import connectDB from "./lib/dbConnect"
 import { UserModel } from "./models/User"
 
-export const { handlers, auth } = NextAuth({
+export const authOptions: NextAuthOptions = {
     providers: [
         Credentials({
             credentials: {
@@ -14,32 +14,45 @@ export const { handlers, auth } = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                await connectDB();
                 try {
-                    let user = null
+                    await connectDB();
 
-                    const { email, password } = await SignInSchema.parseAsync(credentials)
+                    const { email, password } = await SignInSchema.parseAsync(credentials);
 
-                    user = await UserModel.findOne({ email });
+                    const user = await UserModel.findOne({ email });
                     if (!user) {
-                        throw new Error("Invalid credentials.")
+                        throw new Error("Invalid credentials.");
                     }
 
                     if (!user.isVerified) {
-                        throw new Error("Account not verified.")
+                        const customError = {
+                            message: "Please verify your email before logging in.",
+                            code: "EMAIL_NOT_VERIFIED",
+                            username: user.username
+                        };
+                        throw new Error(JSON.stringify(customError));
                     }
 
                     const isVaildPassword = await bcrypt.compare(password, user.password);
                     if (!isVaildPassword) {
-                        throw new Error("Wrong Password")
+                        throw new Error("Incorrect password.");
                     }
 
-                    // return JSON object with the user data
-                    return user
+                    return {
+                        id: user._id.toString(),
+                        email: user.email,
+                        name: user.username,
+                        _id: user._id.toString(),
+                        username: user.username,
+                        isVerified: user.isVerified,
+                        acceptMessage: user.acceptMessage
+                    };
                 } catch (error) {
                     if (error instanceof ZodError) {
-                        return null
+                        return null;
                     }
+
+                    throw error;
                 }
             },
         })
@@ -63,9 +76,9 @@ export const { handlers, auth } = NextAuth({
         }
     },
     pages: {
-        signIn: "auth/signin",
+        signIn: "/signin",
     },
     session: {
         strategy: "jwt",
     }
-})
+}

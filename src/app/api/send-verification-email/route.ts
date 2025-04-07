@@ -14,11 +14,15 @@ export async function POST(request: Request) {
             return Response.json({ message: "Invalid request", success: false }, { status: 400 });
         }
 
-        const { email } = parsed.data;
+        const { username } = parsed.data;
 
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ username });
         if (!user) {
             return Response.json({ message: "Account not found", success: false }, { status: 404 });
+        }
+
+        if (user.isVerified) {
+            return Response.json({ message: "Your email is already verified.", success: false }, { status: 400 });
         }
 
         const otp = generateOTP();
@@ -29,7 +33,7 @@ export async function POST(request: Request) {
         user.otpExpiry = otpExpiry;
         await user.save();
 
-        const { username } = user;
+        const { email } = user;
 
         const emailResponse = await sendVerificationEmail({ username, email, otp });
         if (!emailResponse.success) {

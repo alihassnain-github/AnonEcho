@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
         className={`${lexend.className} antialiased`}
       >
         {children}
+        <Toaster toastOptions={{ style: { fontFamily: 'Lexend, sans-serif', } }} />
       </body>
     </html>
   );

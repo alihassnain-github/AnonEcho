@@ -1,0 +1,3 @@
+1) Limit the user from calling the "Send Verification Email" API repeatedly by setting a time interval before they can call it again.
+2) Implement the "Forgot Password" feature.
+3) Integrate Google Sign-Up.

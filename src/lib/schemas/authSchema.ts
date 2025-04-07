@@ -39,15 +39,14 @@ export const SignInSchema = z.object({
 });
 
 export const VerifySchema = z.object({
-    pin: z.string()
+    otp: z.string()
         .length(6, { message: "Your one-time password must be exactly 6 digits." })
         .regex(/^\d{6}$/, { message: "OTP must contain only numbers (0-9)." }),
 });
 
 export const SendEmailSchema = z.object({
-    email: z
+    username: z
         .string()
         .trim()
-        .nonempty("Email is required")
-        .email("Invalid email format"),
+        .nonempty("Username is required")
 });

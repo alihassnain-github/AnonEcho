@@ -27,10 +27,10 @@ export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
         <Html>
             <Head>
                 <Font
-                    fontFamily="Inter"
+                    fontFamily="Lexend"
                     fallbackFontFamily="Arial"
                     webFont={{
-                        url: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap',
+                        url: 'https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap',
                         format: 'woff2',
                     }}
                     fontWeight={400}
@@ -58,7 +58,7 @@ export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
                             <Section style={verificationSection}>
                                 <Text style={verifyText}>Your Verification Code</Text>
                                 <Text style={codeText}>{otp}</Text>
-                                <Text style={validityText}>(This code expires in 10 minutes)</Text>
+                                <Text style={validityText}>(This code expires in 24 hours)</Text>
                             </Section>
                         </Section>
                         <Hr />
@@ -77,7 +77,7 @@ export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
 const main = {
     backgroundColor: '#fff',
     color: '#212121',
-    fontFamily: 'Inter, Arial, sans-serif',
+    fontFamily: "'Lexend', sans-serif"
 };
 
 const container = {

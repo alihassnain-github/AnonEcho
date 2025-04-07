@@ -1,5 +1,6 @@
 "use client"
 
+import axios from "axios"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -9,8 +10,17 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { SignUpSchema } from "@/lib/schemas/authSchema"
 import Link from "next/link"
+import { useState } from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 
 export default function SignUpForm() {
+
+    const router = useRouter();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
     const form = useForm<z.infer<typeof SignUpSchema>>({
         resolver: zodResolver(SignUpSchema),
         defaultValues: {
@@ -20,8 +30,29 @@ export default function SignUpForm() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof SignUpSchema>) {
-        console.log(data)
+    async function onSubmit(data: z.infer<typeof SignUpSchema>) {
+        const { username, email, password } = data;
+        try {
+            setLoading(true);
+            const response = await axios.post('/api/signup', {
+                username,
+                email,
+                password
+            })
+
+            router.replace(`/verify/${username}`);
+
+            toast.success(response.data.message);
+
+        } catch (error) {
+            console.error("registration Error: ", error);
+            if (axios.isAxiosError(error) && error.response?.data) {
+                toast.error(error.response.data.message);
+            }
+        } finally {
+            setLoading(false);
+        }
+
     }
 
     return (
@@ -94,8 +125,15 @@ export default function SignUpForm() {
                         )}
                     />
 
-                    <Button type="submit" className="w-full">
-                        Create account
+                    <Button type="submit" disabled={loading} className="w-full">
+                        {
+                            loading ?
+                                <>
+                                    <Loader2 className="animate-spin" />
+                                    Please wait
+                                </> :
+                                "Create account"
+                        }
                     </Button>
                     <div className="text-center text-sm mt-4">
                         <span className="text-muted-foreground">Already have an account? </span>
