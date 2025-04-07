@@ -9,6 +9,7 @@ import {
     Img,
     Preview,
     Section,
+    Tailwind,
     Text,
 } from '@react-email/components';
 import * as React from 'react';
@@ -27,117 +28,65 @@ export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
         <Html>
             <Head>
                 <Font
-                    fontFamily="Lexend"
+                    fontFamily="Poppins"
                     fallbackFontFamily="Arial"
                     webFont={{
-                        url: 'https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap',
+                        url: 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
                         format: 'woff2',
                     }}
-                    fontWeight={400}
-                    fontStyle="normal"
                 />
             </Head>
-            <Body style={main}>
-                <Preview>Verify your email for AnonEcho</Preview>
-                <Container style={container}>
-                    <Section style={coverSection}>
-                        <Section style={imageSection}>
-                            <Img
-                                src={`${baseUrl}/assets/logo.png`}
-                                width="100"
-                                height="50"
-                                alt="AnonEcho Logo"
-                            />
-                        </Section>
-                        <Section style={upperSection}>
-                            <Heading style={h1}>Verify Your Email</Heading>
-                            <Text style={mainText}>
-                                Hi {username}, thanks for using AnonEcho. To complete your signup,
-                                please enter the verification code below.
-                            </Text>
-                            <Section style={verificationSection}>
-                                <Text style={verifyText}>Your Verification Code</Text>
-                                <Text style={codeText}>{otp}</Text>
-                                <Text style={validityText}>(This code expires in 24 hours)</Text>
+            <Preview>Verify your email for AnonEcho</Preview>
+            <Tailwind>
+                <Body className="bg-white text-[#212121]" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                    <Container className="bg-[#f4f4f4] p-5 mx-auto" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                        <Section className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                            {/* Logo Section */}
+                            <Section className="bg-[#252f3d] flex items-center justify-center py-5" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                <Img
+                                    src={`${baseUrl}/assets/logo.png`}
+                                    width="100"
+                                    height="50"
+                                    alt="AnonEcho Logo"
+                                />
+                            </Section>
+
+                            {/* Content Section */}
+                            <Section className="px-10 py-7" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                <Heading className="text-[22px] font-bold text-[#333] mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                    Verify Your Email
+                                </Heading>
+                                <Text className="text-[14px] text-[#333] mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                    Hi {username}, thanks for using AnonEcho. To complete your signup,
+                                    please enter the verification code below.
+                                </Text>
+
+                                {/* Verification Code Section */}
+                                <Section className="flex flex-col items-center justify-center" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                    <Text className="text-[14px] text-[#333] font-bold text-center m-0" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                        Your Verification Code
+                                    </Text>
+                                    <Text className="text-[36px] font-bold text-center my-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                        {otp}
+                                    </Text>
+                                    <Text className="text-[14px] text-[#333] text-center m-0" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                        (This code expires in 24 hours)
+                                    </Text>
+                                </Section>
+                            </Section>
+
+                            <Hr />
+
+                            {/* Warning Section */}
+                            <Section className="px-10 py-7" style={{ fontFamily: "'Lexend', Arial, sans-serif" }}>
+                                <Text className="text-[14px] text-[#333] m-0" style={{ fontFamily: "'Lexend', Arial, sans-serif" }}>
+                                    Never share this code with anyone. If you didn’t request this, ignore this email.
+                                </Text>
                             </Section>
                         </Section>
-                        <Hr />
-                        <Section style={lowerSection}>
-                            <Text style={cautionText}>
-                                Never share this code with anyone. If you didn’t request this, ignore this email.
-                            </Text>
-                        </Section>
-                    </Section>
-                </Container>
-            </Body>
+                    </Container>
+                </Body>
+            </Tailwind>
         </Html>
     );
 }
-
-const main = {
-    backgroundColor: '#fff',
-    color: '#212121',
-    fontFamily: "'Lexend', sans-serif"
-};
-
-const container = {
-    padding: '20px',
-    margin: '0 auto',
-    backgroundColor: '#f4f4f4',
-};
-
-const h1 = {
-    color: '#333',
-    fontSize: '22px',
-    fontWeight: 'bold',
-    marginBottom: '15px',
-};
-
-const text = {
-    color: '#333',
-    fontSize: '14px',
-    margin: '24px 0',
-};
-
-const imageSection = {
-    backgroundColor: '#252f3d',
-    display: 'flex',
-    padding: '20px 0',
-    alignItems: 'center',
-    justifyContent: 'center',
-};
-
-const coverSection = { backgroundColor: '#fff' };
-const upperSection = { padding: '25px 35px' };
-const lowerSection = { padding: '25px 35px' };
-
-const verifyText = {
-    ...text,
-    margin: 0,
-    fontWeight: 'bold',
-    textAlign: 'center' as const,
-};
-
-const codeText = {
-    ...text,
-    fontWeight: 'bold',
-    fontSize: '36px',
-    margin: '10px 0',
-    textAlign: 'center' as const,
-};
-
-const validityText = {
-    ...text,
-    margin: '0px',
-    textAlign: 'center' as const,
-};
-
-const verificationSection = {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    justifyContent: 'center',
-};
-
-const mainText = { ...text, marginBottom: '14px' };
-const cautionText = { ...text, margin: '0px' };
