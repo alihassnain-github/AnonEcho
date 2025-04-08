@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token._id = user._id;
+                token._id = user._id?.toString();
                 token.username = user.username;
                 token.isVerified = user.isVerified;
                 token.acceptMessage = user.acceptMessage;

@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 export const MessageSchema = z.object({
+    username: z
+        .string()
+        .trim()
+        .nonempty("Username is required"),
+
     text: z.
         string()
         .trim()
