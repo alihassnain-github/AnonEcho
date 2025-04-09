@@ -1,6 +1,7 @@
 import { MessageSquare } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { NavUser } from "./nav-user"
+import WithAuth from "@/hocs/withAuth"
 
 export default function Header() {
     return (
@@ -16,18 +17,9 @@ export default function Header() {
                             How It Works
                         </Link>
                     </nav>
-                    <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" asChild>
-                            <Link href={"/signin"}>
-                                Log in
-                            </Link>
-                        </Button>
-                        <Button size="sm" asChild>
-                            <Link href={"/signup"}>
-                                Sign up
-                            </Link>
-                        </Button>
-                    </div>
+                    <WithAuth>
+                        <NavUser />
+                    </WithAuth>
                 </div>
             </div>
         </header>
