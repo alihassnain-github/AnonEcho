@@ -17,7 +17,7 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-black">
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-32">
+      <section className="container mx-auto px-4 py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <Badge variant="outline" className="px-3 py-1 text-sm">

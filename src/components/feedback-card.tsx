@@ -1,43 +1,57 @@
 "use client"
 
-import { Trash2, X } from "lucide-react"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { MessageSquare, Trash2 } from "lucide-react"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "./ui/button"
 
-interface FeedbackProps {
-    feedback: {
-        id: number
-        text: string
-        type: string
-        rating: number
-        date: string
-    }
-    onDelete: () => void
-}
-
-export default function FeedbackCard({ feedback }: FeedbackProps) {
+export default function FeedbackCard() {
     return (
-        <Card className="bg-gray-900 border-gray-800 text-white relative">
-            <button
-                className="absolute right-12 top-4 p-1 hover:bg-gray-800 rounded-full"
-                aria-label="Delete feedback"
-            >
-                <Trash2 size={18} />
-            </button>
-            <button className="absolute right-4 top-4 p-1 hover:bg-gray-800 rounded-full" aria-label="Close feedback">
-                <X size={18} />
-            </button>
-
-            <CardContent className="pt-6">
-                <p className="text-white mb-4">{feedback.text}</p>
-                <div className="flex gap-2">
-                    <span className="bg-gray-800 text-xs px-3 py-1 rounded-full">{feedback.type}</span>
-                    <span className="bg-gray-800 text-xs px-3 py-1 rounded-full">Rating: {feedback.rating}</span>
-                </div>
+        <Card className="border-2 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+            <CardHeader className="pb-2 flex items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4" /> Anonymous Feedback
+                </CardTitle>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500">
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Delete feedback</span>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Delete Feedback</DialogTitle>
+                            <DialogDescription>
+                                Are you sure you want to delete this feedback?
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <Button variant="outline">
+                                Cancel
+                            </Button>
+                            <Button variant="destructive">
+                                Delete
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </CardHeader>
+            <CardContent>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                    "The team meeting format has improved dramatically since we started collecting anonymous feedback.
+                    People are more honest now."
+                </p>
             </CardContent>
-
-            <CardFooter className="text-gray-400 text-sm border-t border-gray-800 py-3">
-                <time>{feedback.date}</time>
-            </CardFooter>
+            <CardFooter className="text-xs text-gray-500 border-t pt-2">Received 2 hours ago</CardFooter>
         </Card>
     )
 }

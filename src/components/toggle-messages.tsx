@@ -1,18 +1,13 @@
 "use client"
 
 import { Switch } from "@/components/ui/switch"
+import { Label } from "./ui/label"
 
-interface ToggleButtonProps {
-    checked: boolean
-    onChange: (checked: boolean) => void
-}
-
-export default function ToggleButton({ checked, onChange }: ToggleButtonProps) {
+export default function ToggleAcceptMessages() {
     return (
-        <Switch
-            checked={checked}
-            onCheckedChange={onChange}
-            className="data-[state=checked]:bg-gray-100 data-[state=checked]:text-black"
-        />
+        <div className="flex items-center space-x-2">
+            <Switch id="accept-message" />
+            <Label htmlFor="accept-message">Accept Messages</Label>
+        </div>
     )
 }
