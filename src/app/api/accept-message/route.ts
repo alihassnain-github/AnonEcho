@@ -59,6 +59,9 @@ export async function GET() {
 
         const messages = userData[0]?.messages || [];
 
+        console.log("Messages : ", messages);
+
+
         return Response.json({ messages, success: true }, { status: 200 });
 
     } catch (error) {
