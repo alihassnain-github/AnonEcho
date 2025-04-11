@@ -2,6 +2,7 @@ import FeedbackCard from "@/components/feedback-card"
 import LinkCopySection from "@/components/link-copy-section"
 import ToggleAcceptMessages from "@/components/toggle-messages"
 import { Button } from "@/components/ui/button"
+import WithAuth from "@/hocs/withAuth"
 import { RefreshCcw } from "lucide-react"
 
 const feedbacks = [
@@ -39,11 +40,13 @@ export default function FeedbackDashboard() {
 
     return (
         <section className="container mx-auto px-4 py-32">
-            <LinkCopySection />
+            <WithAuth>
+                <LinkCopySection />
+            </WithAuth>
             <div className="border-t border-gray-700 my-6"></div>
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-medium">Read your reviews</h2>
-                <div className="flex items-center gap-x-8">
+            <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between items-center mb-4">
+                <h2 className="text-xl font-medium text-nowrap">Read your reviews</h2>
+                <div className="flex items-center justify-between md:justify-end w-full gap-x-8">
                     <ToggleAcceptMessages />
                     <Button size={"icon"}>
                         <RefreshCcw size={18} />

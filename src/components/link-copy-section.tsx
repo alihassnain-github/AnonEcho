@@ -4,12 +4,24 @@ import { Button } from "@/components/ui/button"
 import { Input } from "./ui/input"
 import { Check, Copy, Download, ScanQrCode, Share2 } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useSession } from "next-auth/react"
 
 export default function LinkCopySection() {
 
+    const { data: session } = useSession()
+
     const inputRef = useRef<HTMLInputElement>(null);
     const [copied, setCopied] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (session?.user.username) {
+            const baseUrl = typeof window !== "undefined" && window.location.origin + `/user/${session?.user.username}`;
+            if (!inputRef.current) return
+            inputRef.current.value = baseUrl as string
+        }
+    }, [session?.user.username])
+
 
     function handleCopy() {
         if (!inputRef.current) return
@@ -25,8 +37,8 @@ export default function LinkCopySection() {
     return (
         <div className="mb-6">
             <h1 className="text-xl font-medium mb-3">Copy Your Unique Link</h1>
-            <div className="flex gap-4">
-                <Input type="url" className="shadow-lg border-1 border-black" value={"https://www.truefeedback.site/dashboard"} readOnly disabled ref={inputRef} />
+            <div className="flex flex-wrap md:flex-nowrap gap-4">
+                <Input type="url" className="shadow-lg border-1 border-black" readOnly disabled ref={inputRef} />
                 <div className="flex gap-2">
                     <Button onClick={handleCopy}>
                         {copied ?
