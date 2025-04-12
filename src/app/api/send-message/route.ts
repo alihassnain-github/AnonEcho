@@ -12,7 +12,8 @@ export async function POST(request: Request) {
             return Response.json({ message: "Invalid request", success: false }, { status: 400 });
         }
 
-        const { username, text } = parsed.data;
+        const { text } = parsed.data;
+        const { username } = body;
 
         const user = await UserModel.findOne({ username });
         if (!user) {

@@ -41,7 +41,7 @@ export function NavUser() {
                                 <AvatarImage src={session?.user.image || "/placeholder.svg?height=32&width=32"} alt={session?.user.username} />
                                 <AvatarFallback>{avatarFallback}</AvatarFallback>
                             </Avatar>
-                            <div className="flex flex-col items-start text-left">
+                            <div className="hidden sm:flex flex-col items-start text-left">
                                 <span className="font-medium">{session?.user.username}</span>
                                 <span className="text-xs text-muted-foreground">{session?.user.email}</span>
                             </div>
