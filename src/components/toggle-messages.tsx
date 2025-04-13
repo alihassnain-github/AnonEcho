@@ -15,8 +15,14 @@ import {
 import { useState } from "react"
 import axios from "axios"
 import { toast } from "sonner"
+import { Button } from "./ui/button"
+import { RefreshCcw } from "lucide-react"
+import useMessages from "@/store/useMessages"
 
 export default function ToggleAcceptMessages() {
+
+    const { fetchMessages } = useMessages();
+
     const form = useForm<z.infer<typeof AcceptMessageSchema>>({
         resolver: zodResolver(AcceptMessageSchema),
         defaultValues: {
@@ -48,25 +54,30 @@ export default function ToggleAcceptMessages() {
     }
 
     return (
-        <Form {...form}>
-            <form className="flex items-center space-x-2">
-                <FormField
-                    control={form.control}
-                    name="acceptMessage"
-                    render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                            <FormControl>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={handleToggle}
-                                    disabled={loading}
-                                />
-                            </FormControl>
-                            <FormLabel>Accept Messages</FormLabel>
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+        <div className="flex items-center justify-between md:justify-end w-full gap-x-8">
+            <Form {...form}>
+                <form className="flex items-center space-x-2">
+                    <FormField
+                        control={form.control}
+                        name="acceptMessage"
+                        render={({ field }) => (
+                            <FormItem className="flex gap-2 items-center">
+                                <FormControl>
+                                    <Switch
+                                        checked={field.value}
+                                        onCheckedChange={handleToggle}
+                                        disabled={loading}
+                                    />
+                                </FormControl>
+                                <FormLabel>Accept Messages</FormLabel>
+                            </FormItem>
+                        )}
+                    />
+                </form>
+            </Form>
+            <Button onClick={fetchMessages} size={"icon"}>
+                <RefreshCcw size={18} />
+            </Button>
+        </div>
     )
 }

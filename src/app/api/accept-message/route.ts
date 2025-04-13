@@ -53,18 +53,16 @@ export async function GET() {
         const userData = await UserModel.aggregate([
             { $match: { _id: userId } },
             { $unwind: '$messages' },
-            { $sort: { '$messages.createdAt': -1 } },
+            { $sort: { 'messages.createdAt': -1 } },
             { $group: { _id: '$_id', messages: { $push: '$messages' } } }
         ]);
 
         const messages = userData[0]?.messages || [];
 
-        console.log("Messages : ", messages);
-
-
         return Response.json({ messages, success: true }, { status: 200 });
 
     } catch (error) {
+        console.log(error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }
