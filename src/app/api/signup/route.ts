@@ -22,13 +22,13 @@ export async function POST(request: Request) {
         // check if user already exist
         const exisitingUser = await UserModel.findOne({ email });
         if (exisitingUser) {
-            return Response.json({ message: "Account already exists. Please try logging in.", success: false }, { status: 409 });
+            return Response.json({ message: "Account already exists. Please try logging in", success: false }, { status: 409 });
         }
 
         // check if username alreay exist
         const exisitingUserName = await UserModel.findOne({ username });
         if (exisitingUserName) {
-            return Response.json({ message: "Username already taken. Please try a different one.", success: false }, { status: 409 });
+            return Response.json({ message: "Username already taken. Please try a different one", success: false }, { status: 409 });
         }
 
         // generate otp
@@ -55,10 +55,9 @@ export async function POST(request: Request) {
             messages: [],
         });
 
-        return Response.json({ message: "A verification email has been sent to your email.", success: true }, { status: 201 });
+        return Response.json({ message: "A verification email has been sent to your email", success: true }, { status: 201 });
     } catch (error) {
-        console.error("Error creating user:", error);
-
+        console.error("Error creating user :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 

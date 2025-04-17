@@ -1,13 +1,17 @@
 import { GoogleGenAI } from '@google/genai';
+const randomSeed = Math.random().toString(36).slice(2);
 
 export async function GET() {
     try {
         const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
         const response = await ai.models.generateContent({
             model: 'gemini-2.0-flash-001',
-            contents: `Generate five unique and interesting questions that could be used to start a conversation with someone. 
-                      Each question should be different and encourage thoughtful responses. 
-                      Format each question as a separate line.`,
+            contents: `Generate five **new**, creative, and unique questions to start a conversation. 
+Avoid repeating questions you've seen before. Be imaginative and thoughtful.
+Each question should be different in tone and topic, and encourage meaningful responses.
+Add variety in subject matter: emotional, hypothetical, light-hearted, deep, or quirky.
+Seed: ${randomSeed}
+Format each question on a new line.`,
         });
 
         const generatedText = response.text;
@@ -19,7 +23,7 @@ export async function GET() {
 
 
     } catch (error) {
-        console.error("Error generating messages:", error);
+        console.error("Error generating messages :", error);
         return Response.json(
             { error: "Failed to generate messages", success: false },
             { status: 500 }

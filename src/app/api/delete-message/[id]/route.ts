@@ -3,7 +3,7 @@ import connectDB from "@/lib/dbConnect";
 import { UserModel } from "@/models/User";
 import { getServerSession } from "next-auth";
 
-export default async function DELETE({
+export async function DELETE(request: Request, {
     params,
 }: {
     params: Promise<{ id: string }>
@@ -26,12 +26,13 @@ export default async function DELETE({
         )
 
         if (updatedUser.modifiedCount === 0) {
-            return Response.json({ message: "Message not found or already deleted.", success: false }, { status: 404 });
+            return Response.json({ message: "Message not found or already deleted", success: false }, { status: 404 });
         }
 
-        return Response.json({ message: "Message deleted successfully.", success: true }, { status: 200 });
+        return Response.json({ message: "Message deleted successfully", success: true }, { status: 200 });
 
     } catch (error) {
+        console.error("Error deleting message :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }

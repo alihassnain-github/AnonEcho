@@ -4,6 +4,7 @@ import { Inbox, MessageSquare, Trash2 } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -18,8 +19,7 @@ import { Skeleton } from "./ui/skeleton"
 
 export default function FeedbackCard() {
 
-    const { loading, messages, fetchMessages } = useMessages();
-
+    const { loading, messages, fetchMessages, deleteMessage } = useMessages();
 
     useEffect(() => {
         // fetch feedback messages initially
@@ -75,10 +75,12 @@ export default function FeedbackCard() {
                                     </DialogDescription>
                                 </DialogHeader>
                                 <DialogFooter>
-                                    <Button variant="outline">
-                                        Cancel
-                                    </Button>
-                                    <Button variant="destructive">
+                                    <DialogClose asChild>
+                                        <Button variant="outline">
+                                            Cancel
+                                        </Button>
+                                    </DialogClose>
+                                    <Button variant="destructive" onClick={() => deleteMessage(_id)}>
                                         Delete
                                     </Button>
                                 </DialogFooter>

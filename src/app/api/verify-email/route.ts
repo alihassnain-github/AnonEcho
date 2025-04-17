@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         return Response.json({ message: "User verified successfully", success: false }, { status: 200 });
 
     } catch (error) {
+        console.error("Error verifying user :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }

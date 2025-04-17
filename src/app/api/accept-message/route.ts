@@ -29,11 +29,12 @@ export async function POST(request: Request) {
         const updatedUser = await UserModel.findByIdAndUpdate(userId, { acceptMessage }, { new: true });
 
         if (!updatedUser) {
-            return Response.json({ message: "Failed to update user message preference", success: false }, { status: 400 });
+            return Response.json({ message: "Failed to update user accept message preference", success: false }, { status: 400 });
         }
 
         return Response.json({ message: "Message preference updated successfully", success: true }, { status: 200 });
     } catch (error) {
+        console.error("Error changing user accept message preference :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }
@@ -49,6 +50,9 @@ export async function GET() {
             return Response.json({ message: "Unauthorized access", success: false }, { status: 401 });
         }
 
+        const dbUser = await UserModel.findById(user?._id);
+        const acceptMessage = dbUser.acceptMessage;
+
         const userId = new mongoose.Types.ObjectId(user?._id);
         const userData = await UserModel.aggregate([
             { $match: { _id: userId } },
@@ -59,10 +63,10 @@ export async function GET() {
 
         const messages = userData[0]?.messages || [];
 
-        return Response.json({ messages, success: true }, { status: 200 });
+        return Response.json({ data: { messages, acceptMessage }, success: true }, { status: 200 });
 
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching messages :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }

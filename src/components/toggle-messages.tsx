@@ -12,7 +12,7 @@ import {
     FormItem,
     FormLabel,
 } from "./ui/form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "sonner"
 import { Button } from "./ui/button"
@@ -21,7 +21,7 @@ import useMessages from "@/store/useMessages"
 
 export default function ToggleAcceptMessages() {
 
-    const { fetchMessages } = useMessages();
+    const { fetchMessages, acceptMessage } = useMessages();
 
     const form = useForm<z.infer<typeof AcceptMessageSchema>>({
         resolver: zodResolver(AcceptMessageSchema),
@@ -29,6 +29,10 @@ export default function ToggleAcceptMessages() {
             acceptMessage: false,
         },
     })
+
+    useEffect(() => {
+        form.setValue("acceptMessage", acceptMessage);
+    }, [acceptMessage]);
 
     const [loading, setLoading] = useState(false)
 
@@ -75,7 +79,7 @@ export default function ToggleAcceptMessages() {
                     />
                 </form>
             </Form>
-            <Button onClick={fetchMessages} size={"icon"}>
+            <Button type="button" onClick={fetchMessages} size={"icon"}>
                 <RefreshCcw size={18} />
             </Button>
         </div>

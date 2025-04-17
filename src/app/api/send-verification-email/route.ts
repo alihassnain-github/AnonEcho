@@ -22,7 +22,7 @@ export async function POST(request: Request) {
         }
 
         if (user.isVerified) {
-            return Response.json({ message: "Your email is already verified.", success: false }, { status: 400 });
+            return Response.json({ message: "Your email is already verified", success: false }, { status: 400 });
         }
 
         const otp = generateOTP();
@@ -40,9 +40,10 @@ export async function POST(request: Request) {
             return Response.json({ message: emailResponse.message, success: emailResponse.success }, { status: 500 });
         }
 
-        return Response.json({ message: "A verification email has been sent to your email.", success: true }, { status: 200 });
+        return Response.json({ message: "A verification email has been sent to your email", success: true }, { status: 200 });
 
     } catch (error) {
+        console.error("Error sending verification email :", error);
         return Response.json({ message: "Internal Server Error", success: false }, { status: 500 });
     }
 }
