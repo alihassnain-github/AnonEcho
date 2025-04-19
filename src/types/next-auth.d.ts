@@ -1,3 +1,4 @@
+/* eslint-disable */
 import NextAuth, { DefaultSession, DefaultUser, JWT } from "next-auth";
 
 // Extend User Type

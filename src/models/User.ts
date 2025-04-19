@@ -41,7 +41,6 @@ const UserSchema = new mongoose.Schema<User>({
     },
     password: {
         type: String,
-        required: true,
         minlength: 8,
     },
     isVerified: {
@@ -50,11 +49,9 @@ const UserSchema = new mongoose.Schema<User>({
     },
     otp: {
         type: String,
-        required: true,
     },
     otpExpiry: {
         type: Date,
-        required: true,
     },
     acceptMessage: {
         type: Boolean,

@@ -89,7 +89,7 @@ export default function FeedbackCard() {
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                            "{text}"
+                            &quot;{text}&quot;
                         </p>
                     </CardContent>
                     <CardFooter className="text-xs text-gray-500 border-t pt-2">{new Date(createdAt).toDateString()}</CardFooter>

@@ -6,7 +6,6 @@ import {
     Heading,
     Hr,
     Html,
-    Img,
     Preview,
     Section,
     Tailwind,
@@ -18,10 +17,6 @@ interface VerifyEmailProps {
     username: string;
     otp: string;
 }
-
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : 'http://localhost:3000';
 
 export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
     return (
@@ -42,13 +37,10 @@ export default function VerifyEmail({ username, otp }: VerifyEmailProps) {
                     <Container className="bg-[#f4f4f4] p-5 mx-auto" style={{ fontFamily: "'Poppins', sans-serif" }}>
                         <Section className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
                             {/* Logo Section */}
-                            <Section className="bg-[#252f3d] flex items-center justify-center py-5" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                                <Img
-                                    src={`${baseUrl}/assets/logo.png`}
-                                    width="100"
-                                    height="50"
-                                    alt="AnonEcho Logo"
-                                />
+                            <Section className="bg-[#252f3d] flex items-center justify-center py-5 px-10" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                <Heading className="text-[22px] font-bold text-[#FFFF] mx-auto mb-4 text-center" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                                    AnonEcho
+                                </Heading>
                             </Section>
 
                             {/* Content Section */}

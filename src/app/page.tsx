@@ -68,8 +68,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    "The team meeting format has improved dramatically since we started collecting anonymous feedback.
-                    People are more honest now."
+                    &quot;The team meeting format has improved dramatically since we started collecting anonymous feedback. People are more honest now.&quot;
                   </p>
                 </CardContent>
                 <CardFooter className="text-xs text-gray-500 border-t pt-2">Received 2 hours ago</CardFooter>
@@ -82,8 +81,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    "I've always wanted to suggest changes to our product roadmap but was afraid of judgment. AnonEcho
-                    gave me that voice."
+                    &quot;I&#39;ve always wanted to suggest changes to our product roadmap but was afraid of judgment. AnonEcho gave me that voice.&quot;
                   </p>
                 </CardContent>
                 <CardFooter className="text-xs text-gray-500 border-t pt-2">Received 5 hours ago</CardFooter>

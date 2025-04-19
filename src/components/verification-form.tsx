@@ -87,7 +87,7 @@ export default function InputOTPForm() {
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold mb-2">Verify Your Account</h1>
                 <p className="text-muted-foreground">
-                    We've sent a 6-digit verification code to your email. Please enter it below to complete your registration.
+                    We&#39;ve sent a 6-digit verification code to your email. Please enter it below to complete your registration.
                 </p>
             </div>
             <Form {...form}>

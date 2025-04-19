@@ -16,10 +16,12 @@ export default function NotFound() {
 
                 <h1 className="text-4xl font-bold tracking-tight">Page Not Found</h1>
 
-                <p className="text-xl text-muted-foreground">We couldn't find the page you were looking for.</p>
+                <p className="text-xl text-muted-foreground">
+                    We couldn&apos;t find the page you were looking for.
+                </p>
 
                 <p className="text-muted-foreground">
-                    The page may have been moved, deleted, or perhaps never existed. Let's get you back to where you need to be.
+                    The page may have been moved, deleted, or perhaps never existed. Let&apos;s get you back to where you need to be.
                 </p>
 
                 <div className="pt-6">

@@ -77,7 +77,7 @@ export default function SignInForm() {
                 <p className="text-sm text-muted-foreground">Enter your credentials to access your account</p>
             </div>
 
-            <Button variant="outline" className="w-full mb-3 flex items-center justify-center">
+            <Button variant="outline" className="w-full mb-3 flex items-center justify-center" onClick={() => signIn("google")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 mr-2">
                     <path
                         fill="currentColor"
@@ -145,7 +145,7 @@ export default function SignInForm() {
                     </Button>
 
                     <div className="text-center text-sm mt-4">
-                        <span className="text-muted-foreground">Don't have an account? </span>
+                        <span className="text-muted-foreground">Don&amp;#39;t have an account? </span>
                         <Link href="/signup" className="text-primary hover:underline">
                             Create one
                         </Link>
